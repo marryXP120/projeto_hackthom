@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Medidor de Pressão{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'pressao/style.css' %}">
+</head>
+<body>
+  <header>
+    <h1 class="logo">❤️ Medidor de Pressão</h1>
+    <nav>
+      {% if user.is_authenticated %}
+        <span>Olá, {{ user.username }}</span>
+        <form class="inline" method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button class="btn sec sm" type="submit">Sair</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}">Entrar</a>
+        <a href="{% url 'cadastro' %}">Cadastrar</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% for m in messages %}<div class="msg">{{ m }}</div>{% endfor %}
+    {% block content %}{% endblock %}
+    <p class="aviso">Aplicativo acadêmico. Não substitui orientação médica.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends "pressao/base.html" %}
+{% block content %}
+<div class="card">
+  <h2 style="margin-top:0">Excluir medição?</h2>
+  <p>Você vai excluir a medição <b>{{ medicao.sistolica }}/{{ medicao.diastolica }}</b> de {{ medicao.data_hora|date:"d/m/Y H:i" }}.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn" type="submit">Sim, excluir</button>
+    <a class="btn sec" href="{% url 'lista' %}">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

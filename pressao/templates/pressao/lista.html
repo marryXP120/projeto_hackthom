@@ -1,0 +1,43 @@
+{% extends "pressao/base.html" %}
+{% block content %}
+<div class="stats">
+  <div class="stat"><b>{{ total }}</b><span>Medições</span></div>
+  <div class="stat"><b>{% if media_s %}{{ media_s }}/{{ media_d }}{% else %}–{% endif %}</b><span>Média (mmHg)</span></div>
+  <div class="stat"><b>{{ media_p|default:"–" }}</b><span>Pulso médio (bpm)</span></div>
+  <div class="stat">
+    {% if ultima %}<b><span class="badge {{ ultima.classe_css }}">{{ ultima.classe_nome }}</span></b>{% else %}<b>–</b>{% endif %}
+    <span>Última medição</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="top">
+    <h2 style="margin:0">Minhas medições</h2>
+    <a class="btn" href="{% url 'criar' %}">+ Nova medição</a>
+  </div>
+  {% if medicoes %}
+  <div style="overflow-x:auto">
+  <table>
+    <thead><tr><th>Data</th><th>Pressão</th><th>Pulso</th><th>Classificação</th><th>Obs.</th><th></th></tr></thead>
+    <tbody>
+    {% for m in medicoes %}
+      <tr>
+        <td>{{ m.data_hora|date:"d/m/Y H:i" }}</td>
+        <td><b>{{ m.sistolica }}/{{ m.diastolica }}</b></td>
+        <td>{{ m.pulso|default:"–" }}</td>
+        <td><span class="badge {{ m.classe_css }}">{{ m.classe_nome }}</span></td>
+        <td>{{ m.observacao }}</td>
+        <td style="white-space:nowrap">
+          <a class="btn sec sm" href="{% url 'editar' m.pk %}">Editar</a>
+          <a class="btn del sm" href="{% url 'excluir' m.pk %}">Excluir</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+    <p class="vazio">Nenhuma medição ainda. Clique em “Nova medição”.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "pressao/base.html" %}
+{% block content %}
+<div class="card">
+  <h2 style="margin-top:0">{{ titulo }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for campo in form %}
+      <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+      {{ campo }}
+      {{ campo.errors }}
+    {% endfor %}
+    <p style="margin-top:20px">
+      <button class="btn" type="submit">Salvar</button>
+      <a class="btn sec" href="{% url 'lista' %}">Cancelar</a>
+    </p>
+  </form>
+</div>
+{% endblock %}
